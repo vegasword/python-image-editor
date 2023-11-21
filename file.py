@@ -1,23 +1,30 @@
 import os
-import shutil
+from PIL import Image
 
-supportedExts = [".jpg", ".jpeg", ".png", ".webp", ".tga", ".bmp", ".gif"]
+supportedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".tga", ".bmp", ".gif"]
 
-imgPath = input('Enter a path file: ')
-imgName = os.path.basename(imgPath)
-imgRoot, imgExt = os.path.splitext(imgPath)
-imgDest = "img/" + imgName
+def OpenImage(path):
+    fileName = os.path.basename(path)
+    fileRoot, fileExtension = os.path.splitext(path)
 
-validExt = False
-for ext in supportedExts:
-    if imgExt == ext:
-        validExt = True
-if not validExt:
-    print(f"{imgPath} is not supported.")
-    exit()
+    validExtension = False
+    for extension in supportedExtensions:
+        if fileExtension == extension :
+            validExtension = True
+    if not validExtension:
+        print(f"Error: {fileName} is not supported.")
+        exit()
 
-try:
-    shutil.copy2(imgPath, imgDest)
-except FileNotFoundError:
-    print("No such file or directory")
-    
+    try:
+        return Image.open(path)
+    except FileNotFoundError:
+        print(f"Error: {fileName}{fileExtension} not found.")
+        exit()
+
+def SaveImage(image, outPath):
+    try:
+        image.save(outPath)
+    except ValueError:
+        print("The output file extension is not supported.")
+    except OSError:
+        print("Something went wrong during the exportation.")
