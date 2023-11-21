@@ -9,6 +9,12 @@ def blurFilter(imgPath,bluringLvl):
     imgBlured.show()
     imgBlured.save(f'img/blured-{imgName}')
     return imgBlured
-        
 
+def rotateImg(imgPath, angle):
+    imgName = os.path.basename(imgPath)
+    img = Image.open(imgPath) 
+    imgRotated = img.rotate(angle)
+    imgRotated.show()
+    imgRotated.save(f'img/blured-{imgName}')
+    return imgRotated
 
