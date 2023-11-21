@@ -15,6 +15,6 @@ def rotateImg(imgPath, angle):
     img = Image.open(imgPath) 
     imgRotated = img.rotate(angle)
     imgRotated.show()
-    imgRotated.save(f'img/blured-{imgName}')
+    imgRotated.save(f'img/Rotated-{imgName}')
     return imgRotated
 
