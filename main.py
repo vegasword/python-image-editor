@@ -1,18 +1,18 @@
 from file import *
 from filters import *
 
-#try:
-#   imgPath = input('Enter a path image: ')
-#except FileNotFoundError:
-#   print("No such file or directory.")
+try:
+   imgPath = input('Enter a path image: ')
+except FileNotFoundError:
+   print("No such file or directory.")
 
-image = OpenImage("img/Nishikata.jpg")
-# image = GreyImage(image)
-# image = BlurImage(image, 20)
-# image = DilateImage(image)
-# image = TextOnImage(image, "AAAAA", 256, (256, 256), "blue")
-# image = RotateImage(image, 20)
-# image = ResizeImage(image, (64, 64))
-# image = WatercolourImage(image)
-SaveImage(image, "img/azerty.jpg")
-
+path = input('Enter a path image: ')
+image = OpenImage(path)
+image = GreyImage(image)
+image = BlurImage(image, 5)
+image = DilateImage(image)
+image = TextOnImage(image, "FOR GOD SAKE", 12, (40, 40), "green")
+image = RotateImage(image, 20)
+image = ResizeImage(image, (200, 100))
+image = WatercolourImage(image)
+SaveImage(image, "result.jpg")
