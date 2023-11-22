@@ -1,7 +1,9 @@
 import os
 import cv2 
 import numpy as np 
-from PIL import Image, ImageFilter, ImageFont
+from PIL import ImageDraw, ImageFilter, ImageFont
+
+from utils import *
 
 cv2.setLogLevel(0)
 
@@ -11,13 +13,9 @@ def GreyImage(image):
 def BlurImage(image, bluringLvl):
     return image.filter(ImageFilter.GaussianBlur(bluringLvl))
 
-def DilateImage(imgPath):
-    img = cv2.imread(imgPath) 
-    imgName = os.path.basename(imgPath)
+def DilateImage(image):
     kernel = np.ones((5, 5), np.uint8)
-    imgDilation = cv2.dilate(img, kernel, iterations=1)
-    outputPath = "img/dilate-" + imgName
-    cv2.imwrite(outputPath, imgDilation)
+    return cv2ToPillow(cv2.dilate(image, kernel, iterations=1))
     
 def RotateImage(image, angle):
     return image.rotate(angle)
@@ -25,9 +23,9 @@ def RotateImage(image, angle):
 def ResizeImage(image, dimension):
     return image.resize(dimension)
 
-def TextOnImage(image, text, size, position, color):
+def TextOnImage(image, text, size, position):
     copiedImage = image.copy()
     draw = ImageDraw.Draw(copiedImage)
     font = ImageFont.load_default(size)
-    draw.text(position, text, font=font, fill=color)
+    draw.text(position, text, font=font, fill=255)
     return copiedImage
