@@ -32,5 +32,13 @@ def DilateImage(imgPath):
     
     outputPath = "img/dilate-" + imgName
     cv2.imwrite(outputPath, imgDilation)
+    
+def RotateImage(imgPath, angle):
+    imgName = os.path.basename(imgPath)
+    img = Image.open(imgPath) 
+    imgRotated = img.rotate(angle)
+    imgRotated.show()
+    imgRotated.save(f'img/Rotated-{imgName}')
+    return imgRotated
 
   

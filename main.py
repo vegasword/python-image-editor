@@ -8,3 +8,4 @@ except FileNotFoundError:
     GreyImage(imgPath)
     BlurImage(imgPath,20)
     DilateImage(imgPath)
+    RotateImage(imgPath, 20)
