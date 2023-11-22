@@ -1,6 +1,8 @@
-import os
 import cv2 
-import numpy as np 
+import math
+import os
+import numpy as np
+import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from logger import *
@@ -86,3 +88,11 @@ def TextOnImage(image, text, size, position, color):
         return copiedImage
     except AttributeError :
         print("Failed to draw on the image.")
+
+def WatercolourImage(image):
+    """
+    Apply a watercolor effect to the input image.
+    :param image: Pillow image or NumPy array representing the image
+    :returns: Watercolorized image as a Pillow image
+    """
+    return Image.fromarray(cv2.stylization(np.array(image), sigma_s=100, sigma_r=0.4))
