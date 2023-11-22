@@ -9,7 +9,6 @@ def OpenImage(path):
     """
     supportedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".tga", ".bmp", ".gif"]
 
-    path = path
     fileName = os.path.basename(path)
     fileRoot, fileExtension = os.path.splitext(path)
 
@@ -24,7 +23,7 @@ def OpenImage(path):
     try:
         return Image.open(path)
     except FileNotFoundError:
-        print(f"Error: {fileName}{fileExtension} not found.")
+        print(f"Error: {path} not found.")
         exit()
 
 def SaveImage(image, outPath):

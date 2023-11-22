@@ -20,7 +20,10 @@ def BlurImage(image, bluringRadius):
     :param bluringRadius: Radius of the blur filter
     :return: New pillow image
     """
-    return image.filter(ImageFilter.GaussianBlur(bluringRadius))
+    try:
+        return image.filter(ImageFilter.GaussianBlur(bluringRadius))
+    except TypeError :
+        print("The type of bluringLvl must be a number.")
 
 def DilateImage(image):
     """
@@ -37,7 +40,10 @@ def RotateImage(image, angle):
     :param angle: Angle (in degree counter clockwise)
     :return: New pillow image
     """
-    return image.rotate(angle)
+    try :
+        return image.rotate(angle)
+    except TypeError :
+        print("The type of the angle must be a number.")
   
 def ResizeImage(image, dimension):
     """
@@ -45,7 +51,12 @@ def ResizeImage(image, dimension):
     :param dimension: New image dimension
     :return: New pillow image
     """
-    return image.resize(dimension)
+    try :
+        return image.resize(dimension)
+    except TypeError :
+        print("The type of the dimension must be a tuple.")
+    except NameError :
+        print("The dimension must be a tuple.")
 
 def TextOnImage(image, text, size, position, color):
     """
@@ -57,8 +68,11 @@ def TextOnImage(image, text, size, position, color):
     :param color: The color of the text (cv2 color representation)
     :return: New pillow image
     """
-    copiedImage = image.copy()
-    draw = ImageDraw.Draw(copiedImage)
-    font = ImageFont.load_default(size)
-    draw.text(position, text, font=font, fill=color)
-    return copiedImage
+    try :
+        copiedImage = image.copy()
+        draw = ImageDraw.Draw(copiedImage)
+        font = ImageFont.load_default(size)
+        draw.text(position, text, font=font, fill=color)
+        return copiedImage
+    except AttributeError :
+        print("Failed to draw on the image.")
