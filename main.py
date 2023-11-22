@@ -1,6 +1,10 @@
 from filters import *
-import os
 
+try:
+    imgPath = input('Enter a path image: ')
+except FileNotFoundError:
+    print("No such file or directory.")
 
-imgPath = input('Enter a path file :')
-blurFilter(imgPath,20)
+    GreyImage(imgPath)
+    BlurImage(imgPath,20)
+    DilateImage(imgPath)
