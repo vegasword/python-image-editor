@@ -166,3 +166,6 @@ cython_debug/
 languages.toml
 logs.txt
 run.sh
+
+#Extras
+img/
