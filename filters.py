@@ -47,17 +47,18 @@ def ResizeImage(image, dimension):
     """
     return image.resize(dimension)
 
-def TextOnImage(image, text, size, position):
+def TextOnImage(image, text, size, position, color):
     """
     Draw a text onto an image
     :param image: Inputted pillow image
     :param text: Inputted text
     :param size: The size of the text
     :param position: The position of the text
+    :param color: The color of the text (cv2 color representation)
     :return: New pillow image
     """
     copiedImage = image.copy()
     draw = ImageDraw.Draw(copiedImage)
     font = ImageFont.load_default(size)
-    draw.text(position, text, font=font)
+    draw.text(position, text, font=font, fill=color)
     return copiedImage
