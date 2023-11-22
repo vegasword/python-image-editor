@@ -34,3 +34,5 @@ class MyImage:
             print("The output file extension is not supported.")
         except OSError:
             print("Something went wrong during the exportation.")
+        except AttributeError :
+            print("")
