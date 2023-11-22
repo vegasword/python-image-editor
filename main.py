@@ -1,13 +1,12 @@
 from myImage import *
 from filters import *
 
-# try:
-#    imgPath = input('Enter a path image: ')
-# except FileNotFoundError:
-#    print("No such file or directory.")
+#try:
+#   imgPath = input('Enter a path image: ')
+#except FileNotFoundError:
+#   print("No such file or directory.")
 
 image = MyImage("img/nishikata.jpg")
-print(image.cv2Img)
 image.pillowImg = GreyImage(image.pillowImg)
 image.pillowImg = BlurImage(image.pillowImg, 20)
 image.pillowImg = DilateImage(image.cv2Img)
