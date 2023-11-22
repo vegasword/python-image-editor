@@ -3,6 +3,8 @@ import cv2
 import numpy as np 
 from PIL import Image
 
+cv2.setLogLevel(0)
+
 def ConvertToGrey(imgPath):
     imgName = os.path.basename(imgPath)
 

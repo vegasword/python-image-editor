@@ -6,5 +6,8 @@ try:
 except FileNotFoundError:
     print("No such file or directory.")
 
-imgPath = input('Enter a path image: ')
-DilateImage(imgPath)
+try:
+    imgPath = input('Enter a path image: ')
+    DilateImage(imgPath)
+except cv2.error:
+    print("No such file or directory.")
