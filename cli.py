@@ -43,6 +43,8 @@ if sys.argv.__contains__("--filters" and "--i" and "--o"):
             print("Wrong parameters. Please use --help.")
     else:
         print("Wrong parameters usage. Please use --help.")
+elif sys.argv.__contains__("--help"):
+    print("Usage: python")
 else:
     print("Wrong command usage. Please use --help.")
 
