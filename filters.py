@@ -65,15 +65,10 @@ def TextOnImage(image, text, size, position, color):
     draw.text(position, text, font=font, fill=color)
     return copiedImage
 
-
-
-def WatercolourImage(image_path):
-    img = cv2.imread(image_path)
-    original_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    watercolour_image = cv2.stylization(original_img, sigma_s=100, sigma_r=0.45)
-    original_dir = os.path.dirname(image_path)
-    watercolor_image_path = os.path.join(original_dir, "watercolor_" + os.path.basename(image_path))
-    cv2.imwrite(watercolor_image_path, cv2.cvtColor(watercolour_image, cv2.COLOR_RGB2BGR))
-    return 
-
-
+def WatercolourImage(image):
+    """
+    Apply a watercolor effect to the input image.
+    :param image: Pillow image or NumPy array representing the image
+    :returns: Watercolorized image as a Pillow image
+    """
+    return Image.fromarray(cv2.stylization(np.array(image), sigma_s=100, sigma_r=0.4))
