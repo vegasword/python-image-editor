@@ -1,4 +1,4 @@
-from myImage import *
+from file import *
 from filters import *
 
 #try:
@@ -6,11 +6,11 @@ from filters import *
 #except FileNotFoundError:
 #   print("No such file or directory.")
 
-image = MyImage("img/nishikata.jpg")
-image.pillowImg = GreyImage(image.pillowImg)
-image.pillowImg = BlurImage(image.pillowImg, 20)
-image.pillowImg = DilateImage(image.cv2Img)
-image.pillowImg = TextOnImage(image.pillowImg, "AAAAA", 256, (256, 256))
-image.pillowImg = RotateImage(image.pillowImg, 20)
-image.pillowImg = ResizeImage(image.pillowImg, (64, 64))
-image.SaveImage("azerty.jpg")
+image = OpenImage("img/nishikata.jpg")
+image = GreyImage(image)
+image = BlurImage(image, 20)
+image = DilateImage(image)
+image = TextOnImage(image, "AAAAA", 256, (256, 256), "blue")
+image = RotateImage(image, 20)
+image = ResizeImage(image, (64, 64))
+SaveImage(image, "azerty.jpg")
