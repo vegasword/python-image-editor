@@ -2,7 +2,7 @@ from filters import *
 from file import *
 import sys
 
-if sys.argv.__contains__("--createGif" and "--o"):
+if "--createGif" in sys.argv and "--o" in sys.argv:
     if "--o" in sys.argv:
         nextArgument = sys.argv[sys.argv.index("--o") + 1]
         outputPath = str(nextArgument + "createdGif.gif")
@@ -14,7 +14,7 @@ if sys.argv.__contains__("--createGif" and "--o"):
         for i in range(0,len(imagesNames)):
             imagesList.append(path + imagesNames[i])
         CreateGif(imagesList, outputPath, duration=500, loop=0)
-elif sys.argv.__contains__("--filters" and "--i" and "--o"):
+elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
     if "--i" in sys.argv:
         nextArgument = sys.argv[sys.argv.index("--i") + 1]
         path = str(nextArgument)
@@ -36,7 +36,7 @@ elif sys.argv.__contains__("--filters" and "--i" and "--o"):
                 filters[param[0]] = param[1]
             else:
                 filters[f] = None
-        if filters.__contains__("grey" or "blur" or "dilate" or "addText1" or "rotate" or "resize1"):
+        if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
             if filters.__contains__("grey"):
                 image = GreyImage(image)   
             if filters.__contains__("blur"):
@@ -51,12 +51,16 @@ elif sys.argv.__contains__("--filters" and "--i" and "--o"):
                 image = RotateImage(image, int(filterParam))
             if filters.__contains__("resize1"):
                 image = ResizeImage(image, (int(filters["resize1"]), int(filters["resize2"])))
+            if filters.__contains__("watercolor"):
+                image = WatercolourImage(image)
         else:
             print("Wrong parameters. Please use --help.")
     else:
         print("Wrong parameters usage. Please use --help.")
-    SaveImage(image, outputPath)
+    SaveImage(image, outputPath)  
 elif sys.argv.__contains__("--help"):
     print("Usage: python")
 else:
     print("Wrong command usage. Please use --help.")
+    
+    
