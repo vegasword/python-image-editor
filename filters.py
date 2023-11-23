@@ -2,7 +2,6 @@ import cv2
 import math
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from logger import *
