@@ -1,6 +1,6 @@
 import os
 import cv2 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from filters import *
 
@@ -68,3 +68,33 @@ def create_gif(image_paths, gif_path, duration=100, loop=0, resize_dimension=(50
         loop=loop
     )
 
+
+def DetectFace(image_path):
+    """
+    Detect faces in an image using Haarcascades classifier.
+
+    Parameters:
+    - image_path : Path to the input image.
+
+    Returns:
+    - faces (list): List of tuples representing detected faces' coordinates (x, y, w, h).
+    """
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+    return faces
+
+def DrawSquares(image_path):
+     """
+    Detect and draw squares around faces in an image.
+
+    Parameters:
+    - image_path (str): Path to the input image.
+    """
+    image = Image.open(image_path)
+    draw = ImageDraw.Draw(image)
+    faces = detect_face(image_path)
+    for (x, y, w, h) in faces:
+        draw.rectangle([x, y, x + w, y + h], outline="red", width=3)
+    image.save('img/faceResult.jpg')
