@@ -24,7 +24,8 @@ if sys.argv.__contains__("--filters" and "--i" and "--o"):
                 filters[param[0]] = param[1]
             else:
                 filters[f] = None
-        if filters.__contains__("grey" or "blur" or "dilate" or "addText1" or "rotate" or "resize1"):
+        filters_to_check = ["grey", "blur", "dilate", "addText1", "rotate", "resize1"]
+        if any(filter in filters for filter in filters_to_check):
             if filters.__contains__("grey"):
                 image = GreyImage(image)   
             if filters.__contains__("blur"):
@@ -43,7 +44,6 @@ if sys.argv.__contains__("--filters" and "--i" and "--o"):
             print("Wrong parameters. Please use --help.")
     else:
         print("Wrong parameters usage. Please use --help.")
+    SaveImage(image, outputPath)  
 else:
     print("Wrong command usage. Please use --help.")
-
-SaveImage(image, outputPath)
