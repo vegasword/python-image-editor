@@ -40,7 +40,6 @@ def SaveImage(image, outPath):
     except OSError:
         print("Something went wrong during the exportation.")
 
-
 def CreateGif(image_paths, gif_path, duration=100, loop=0, resize_dimension=(500, 500)):
     """
     Create a GIF from a list of image file paths.

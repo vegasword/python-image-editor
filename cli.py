@@ -62,5 +62,3 @@ elif sys.argv.__contains__("--help"):
     print("Usage: python")
 else:
     print("Wrong command usage. Please use --help.")
-    
-    
