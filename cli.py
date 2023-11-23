@@ -37,28 +37,47 @@ elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
             else:
                 filters[f] = None
         if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
-            if filters.__contains__("grey"):
+            if "grey" in filters:
                 image = GreyImage(image)   
-            if filters.__contains__("blur"):
+            if "blur" in filters:
                 filterParam = filters["blur"]
                 image = BlurImage(image, int(filterParam))
-            if filters.__contains__("dilate"):                
+            if "dilate" in filters:                
                 image = DilateImage(image)
-            if filters.__contains__("addText1"):
+            if "addText1" in filters:
                 image = TextOnImage(image, filters["addText1"], int(filters["addText2"]), (int(filters["addText3"]), int(filters["addText4"])), filters["addText5"])
-            if filters.__contains__("rotate"):
+            if "rotate" in filters:
                 filterParam = filters["rotate"]
                 image = RotateImage(image, int(filterParam))
-            if filters.__contains__("resize1"):
+            if "resize1" in filters:
                 image = ResizeImage(image, (int(filters["resize1"]), int(filters["resize2"])))
-            if filters.__contains__("watercolor"):
+            if "watercolor" in filters:
                 image = WatercolourImage(image)
         else:
             print("Wrong parameters. Please use --help.")
     else:
         print("Wrong parameters usage. Please use --help.")
     SaveImage(image, outputPath)  
-elif sys.argv.__contains__("--help"):
-    print("Usage: python")
+elif "--help" in sys.argv or len(sys.argv) < 2:
+    print("Usage: python3 main.py [OPTIONS] [ARGS]...\n\n\
+    Image editor command line interface.\n\n\
+Available options:\n\
+  --filters     Image filters to apply. Use '&' separators to chain multiple filters.\n\
+  --i           Image input path. Specify the full path of the input image.\n\
+  --o           Output path for resulting image. Specify the output folder where the processed image will be saved.\n\
+  --help        Show this message and exit.\n\n\
+Arguments for --filters:\n\
+  grey      Applies a grey filter\n\
+  blur:rate     Applies a blur filter for a certain rate\n\
+  dilate    Applies a dilatation filter\n\
+  rotate:angle      Applies a rotation for a certain angle\n\
+  resize:width:height    Resize the image for a specific dimension\n\
+  addText:text:size:position_x:position_y:color     Draw a text onto the image\n\
+  watercolor    Applies a watercolor effect to the image\n\n\
+Example of use :\n\
+  python main.py --filters \"rotate:30&grey&dilate&blur:30\" --i input/img.jpg --o output/\n\n\
+Notes:\n\
+  - Image filters are chained in the order specified.\n\
+  - Be sure to specify input and output paths appropriately.")
 else:
     print("Wrong command usage. Please use --help.")
