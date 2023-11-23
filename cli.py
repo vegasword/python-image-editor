@@ -2,7 +2,19 @@ from filters import *
 from file import *
 import sys
 
-if sys.argv.__contains__("--filters" and "--i" and "--o"):
+if sys.argv.__contains__("--createGif" and "--o"):
+    if "--o" in sys.argv:
+        nextArgument = sys.argv[sys.argv.index("--o") + 1]
+        outputPath = str(nextArgument + "createdGif.gif")
+    if "--createGif" in sys.argv:
+        nextArgument = sys.argv[sys.argv.index("--createGif") + 1]
+        path = str(nextArgument)
+        imagesNames = os.listdir(path)
+        imagesList = []
+        for i in range(0,len(imagesNames)):
+            imagesList.append(path + imagesNames[i])
+        CreateGif(imagesList, outputPath, duration=500, loop=0)
+elif sys.argv.__contains__("--filters" and "--i" and "--o"):
     if "--i" in sys.argv:
         nextArgument = sys.argv[sys.argv.index("--i") + 1]
         path = str(nextArgument)
