@@ -85,7 +85,7 @@ def DetectFace(image_path):
     return faces
 
 def DrawSquares(image_path):
-     """
+    """
     Detect and draw squares around faces in an image.
 
     Parameters:

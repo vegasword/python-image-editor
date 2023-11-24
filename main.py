@@ -1,2 +1,2 @@
-from CLI import *
+from cli import *
 

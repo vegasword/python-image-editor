@@ -14,7 +14,7 @@ if "--createGif" in sys.argv and "--o" in sys.argv:
         for i in range(0,len(imagesNames)):
             imagesList.append(path + imagesNames[i])
         CreateGif(imagesList, outputPath, duration=500, loop=0)
-elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
+elif ("--filters" or "--config" in sys.argv) and "--i" in sys.argv and "--o" in sys.argv:
     if "--i" in sys.argv:
         nextArgument = sys.argv[sys.argv.index("--i") + 1]
         path = str(nextArgument)
@@ -38,7 +38,7 @@ elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
                 filters[f] = None
         if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
             if "grey" in filters:
-                image = GreyImage(image)   
+                image = GreyImage(image)
             if "blur" in filters:
                 filterParam = filters["blur"]
                 image = BlurImage(image, int(filterParam))
@@ -55,6 +55,47 @@ elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
                 image = WatercolourImage(image)
         else:
             print("Wrong parameters. Please use --help.")
+    elif "--config" in sys.argv:
+        nextArgument = sys.argv[sys.argv.index("--config") + 1]
+        configPath = str(nextArgument)
+        options = {}
+        with open(configPath, "r") as config:
+            for line in config:
+                option = line.split("=")
+                if len(option) > 1:
+                    options[option[0].strip()] = option[1].strip()
+        thereIsOption = False
+        if "on" in options["grey"]:
+            image = GreyImage(image)
+            thereIsOption = True
+        if "on" in options["blur"]:
+            blurRate = options["blur_rate"]
+            image = BlurImage(image, int(blurRate))
+            thereIsOption = True
+        if "on" in options["dilate"]:
+            image = DilateImage(image)
+            thereIsOption = True
+        if "on" in options["rotate"]:
+            rotateAngle = options["rotate_angle"]
+            image = RotateImage(image, int(rotateAngle))
+            thereIsOption = True
+        if "on" in options["resize"]:
+            resizeWidth = options["resize_width"]
+            resizeHeight = options["resize_height"]
+            image = ResizeImage(image, (int(resizeWidth), int(resizeHeight)))
+            thereIsOption = True
+        if "on" in options["addText"]:
+            text = options["text"]
+            textSize = options["text_size"]
+            positionX = options["position_x"]
+            positionY = options["position_y"]
+            color = options["color"]
+            image = TextOnImage(image, text, int(textSize), (int(positionX), int(positionY)), color)         
+            thereIsOption = True
+        if "on" in options["watercolor"]:
+            image = WatercolourImage(image)
+        if not thereIsOption:
+            print(f"No options defined in {configPath}")
     else:
         print("Wrong parameters usage. Please use --help.")
     SaveImage(image, outputPath)  
