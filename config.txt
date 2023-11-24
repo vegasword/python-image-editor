@@ -5,7 +5,7 @@ blur = off
 
 dilate = off
 
-rotate = off
+rotate = on
     rotate_angle = 90
 
 resize = off
@@ -19,7 +19,7 @@ addText = on
     position_y = 500
     color = red
 
-watercolor = on
+watercolor = off
 
 input = img/nishikata.jpg
 

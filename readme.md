@@ -21,4 +21,4 @@ The editor only supports the following image formats: `jpg`, `jpeg`, `png`, `web
 
 ## Usage
 
-`python main.py --filters "gray&rotate:55" --i img --o output/`
+`python main.py [OPTIONS] [ARGS]...`
