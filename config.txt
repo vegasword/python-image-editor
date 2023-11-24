@@ -3,7 +3,7 @@ grey = off
 blur = off
     blur_rate = 30
 
-dilate = off
+dilate = on
 
 rotate = on
     rotate_angle = 90
@@ -12,7 +12,7 @@ resize = off
     resize_width =
     resize_height =
 
-addText = on
+addText = off
     text = azezaeza
     text_size = 200
     position_x = 500
@@ -21,6 +21,6 @@ addText = on
 
 watercolor = off
 
-input = img/nishikata.jpg
+input = img/nishikata.jpg img/octet.jpg
 
 output = img/

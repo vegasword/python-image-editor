@@ -15,47 +15,49 @@ if "--createGif" in sys.argv and "--o" in sys.argv:
     CreateGif(imagesList, outputPath, duration=500, loop=0)
     SaveImage(image, outputPath) 
 elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
-    nextArgument = sys.argv[sys.argv.index("--i") + 1]
-    path = str(nextArgument)
-    image = OpenImage(path)
-    imageName = os.path.basename(path)
-    nextArgument = sys.argv[sys.argv.index("--o") + 1]
-    outputPath = str(nextArgument + "modified-" + imageName)
-    nextArgument = sys.argv[sys.argv.index("--filters") + 1]
-    filter = nextArgument.split("&")
-    filters = {}
-    for f in filter:
-        param = f.split(":")
-        if len(param) > 2:
-                for i in range(1, len(param), 1):
-                    filters[param[0]+str(i)] = param[i]
-        elif len(param) > 1:
-            filters[param[0]] = param[1]
+    filesCount = sys.argv.index("--o") - sys.argv.index("--i")
+    for i in range(1, filesCount):
+        nextArgument = sys.argv[sys.argv.index("--i") + i]
+        path = str(nextArgument)
+        image = OpenImage(path)
+        imageName = os.path.basename(path)
+        nextArgument = sys.argv[sys.argv.index("--o") + 1]
+        outputPath = str(nextArgument + "modified-" + imageName)
+        nextArgument = sys.argv[sys.argv.index("--filters") + 1]
+        filter = nextArgument.split("&")
+        filters = {}
+        for f in filter:
+            param = f.split(":")
+            if len(param) > 2:
+                    for i in range(1, len(param), 1):
+                        filters[param[0]+str(i)] = param[i]
+            elif len(param) > 1:
+                filters[param[0]] = param[1]
+            else:
+                filters[f] = None
+        if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
+            if "grey" in filters:
+                image = GreyImage(image)
+            if "blur" in filters:
+                filterParam = filters["blur"]
+                image = BlurImage(image, filterParam)
+            if "dilate" in filters:                
+                image = DilateImage(image)
+            if "addText1" in filters:
+                try:
+                    image = TextOnImage(image, filters["addText1"], filters["addText2"], filters["addText3"], filters["addText4"], filters["addText5"])
+                except KeyError:
+                    print("Not enough parameters.")
+            if "rotate" in filters:
+                filterParam = filters["rotate"]
+                image = RotateImage(image, filterParam)
+            if "resize1" in filters:
+                image = ResizeImage(image, filters["resize1"], filters["resize2"])
+            if "watercolor" in filters:
+                image = WatercolourImage(image)
         else:
-            filters[f] = None
-    if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
-        if "grey" in filters:
-            image = GreyImage(image)
-        if "blur" in filters:
-            filterParam = filters["blur"]
-            image = BlurImage(image, filterParam)
-        if "dilate" in filters:                
-            image = DilateImage(image)
-        if "addText1" in filters:
-            try:
-                image = TextOnImage(image, filters["addText1"], filters["addText2"], filters["addText3"], filters["addText4"], filters["addText5"])
-            except KeyError:
-                print("Not enough parameters.")
-        if "rotate" in filters:
-            filterParam = filters["rotate"]
-            image = RotateImage(image, filterParam)
-        if "resize1" in filters:
-            image = ResizeImage(image, filters["resize1"], filters["resize2"])
-        if "watercolor" in filters:
-            image = WatercolourImage(image)
-    else:
-        print("Wrong parameters. Please use --help.")
-    SaveImage(image, outputPath) 
+            print("Wrong parameters. Please use --help.")
+        SaveImage(image, outputPath) 
 elif "--config" in sys.argv:
     try:
         nextArgument = sys.argv[sys.argv.index("--config") + 1]
