@@ -83,7 +83,7 @@ def DetectFace(image_path):
     img = cv2.imread(image_path)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.029, minNeighbors=5)
     return faces
 
 def DrawSquares(image_path):
@@ -98,4 +98,4 @@ def DrawSquares(image_path):
     faces = DetectFace(image_path)
     for (x, y, w, h) in faces:
         draw.rectangle([x, y, x + w, y + h], outline="red", width=3)
-    image.save('img/faceResult.jpg')
+    return image

@@ -2,7 +2,15 @@ from filters import *
 from file import *
 import sys
 
-if "--createGif" in sys.argv and "--o" in sys.argv:
+if "--faceDetect" in sys.argv and "--o" in sys.argv:
+    nextArgument = sys.argv[sys.argv.index("--faceDetect") + 1]
+    path = str(nextArgument)
+    imageName = os.path.basename(path)
+    nextArgument = sys.argv[sys.argv.index("--o") + 1]
+    outputPath = str(nextArgument + "face-" + imageName)
+    image = DrawSquares(path)
+    SaveImage(image, outputPath) 
+elif "--createGif" in sys.argv and "--o" in sys.argv:
     nextArgument = sys.argv[sys.argv.index("--o") + 1]
     outputPath = str(nextArgument + "createdGif.gif")
     nextArgument = sys.argv[sys.argv.index("--createGif") + 1]
@@ -115,8 +123,11 @@ elif "--help" in sys.argv or len(sys.argv) < 2:
     print("Usage: python3 main.py [OPTIONS] [ARGS]...\n\n\
     Image editor command line interface.\n\n\
 Available options:\n\
+  --config      Txt file to apply that contains filters to use, input path and output path.\n\
+  --createGif   Create a gif with an entire folder.\n\
+  --faceDetect  Draw red squares arround detected faces in a specified image.\n\
   --filters     Image filters to apply. Use '&' separators to chain multiple filters.\n\
-  --i           Image input path. Specify the full path of the input image.\n\
+  --i           Image input path. Specify the full path of the input image. You can select multiple image.\n\
   --o           Output path for resulting image. Specify the output folder where the processed image will be saved.\n\
   --help        Show this message and exit.\n\n\
 Arguments for --filters:\n\
