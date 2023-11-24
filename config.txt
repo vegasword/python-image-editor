@@ -6,7 +6,7 @@ blur = off
 dilate = on
 
 rotate = on
-    rotate_angle = 90
+    rotate_angle = 45
 
 resize = off
     resize_width =

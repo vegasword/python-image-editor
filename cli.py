@@ -68,44 +68,47 @@ elif "--config" in sys.argv:
                 option = line.split("=")
                 if len(option) > 1:
                     options[option[0].strip()] = option[1].strip()
-        path = options["input"]
-        image = OpenImage(path)
-        imageName = os.path.basename(path)
-        outputPath = str(options["output"] + "modified-" + imageName)
-        thereIsOption = False
-        if "on" in options["grey"]:
-            image = GreyImage(image)
-            thereIsOption = True
-        if "on" in options["blur"]:
-            blurRate = options["blur_rate"]
-            image = BlurImage(image, blurRate)
-            thereIsOption = True
-        if "on" in options["dilate"]:
-            image = DilateImage(image)
-            thereIsOption = True
-        if "on" in options["rotate"]:
-            rotateAngle = options["rotate_angle"]
-            image = RotateImage(image, rotateAngle)
-            thereIsOption = True
-        if "on" in options["resize"]:
-            resizeWidth = options["resize_width"]
-            resizeHeight = options["resize_height"]
-            image = ResizeImage(image, resizeWidth, resizeHeight)
-            thereIsOption = True
-        if "on" in options["addText"]:
-            text = options["text"]
-            textSize = options["text_size"]
-            positionX = options["position_x"]
-            positionY = options["position_y"]
-            color = options["color"]
-            image = TextOnImage(image, text, int(textSize), positionX, positionY, color)         
-            thereIsOption = True
-        if "on" in options["watercolor"]:
-            image = WatercolourImage(image)
-            thereIsOption = True
-        if not thereIsOption:
-            print(f"Error: No options defined in {configPath}")
-        SaveImage(image, outputPath) 
+        files = options["input"].split()
+        filesCount = len(files)
+        for i in range(0, filesCount):
+            path = files[i]
+            image = OpenImage(path)
+            imageName = os.path.basename(path)
+            outputPath = str(options["output"] + "modified-" + imageName)
+            thereIsOption = False
+            if "on" in options["grey"]:
+                image = GreyImage(image)
+                thereIsOption = True
+            if "on" in options["blur"]:
+                blurRate = options["blur_rate"]
+                image = BlurImage(image, blurRate)
+                thereIsOption = True
+            if "on" in options["dilate"]:
+                image = DilateImage(image)
+                thereIsOption = True
+            if "on" in options["rotate"]:
+                rotateAngle = options["rotate_angle"]
+                image = RotateImage(image, rotateAngle)
+                thereIsOption = True
+            if "on" in options["resize"]:
+                resizeWidth = options["resize_width"]
+                resizeHeight = options["resize_height"]
+                image = ResizeImage(image, resizeWidth, resizeHeight)
+                thereIsOption = True
+            if "on" in options["addText"]:
+                text = options["text"]
+                textSize = options["text_size"]
+                positionX = options["position_x"]
+                positionY = options["position_y"]
+                color = options["color"]
+                image = TextOnImage(image, text, int(textSize), positionX, positionY, color)         
+                thereIsOption = True
+            if "on" in options["watercolor"]:
+                image = WatercolourImage(image)
+                thereIsOption = True
+            if not thereIsOption:
+                print(f"Error: No options defined in {configPath}")
+            SaveImage(image, outputPath) 
     except IndexError:
         print("Error: No file specified.")
 elif "--help" in sys.argv or len(sys.argv) < 2:
