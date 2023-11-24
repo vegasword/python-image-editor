@@ -79,7 +79,7 @@ def TextOnImage(image, text, size, position_x, position_y, color):
     try :
         copiedImage = image.copy()
         draw = ImageDraw.Draw(copiedImage)
-        font = ImageFont.load_default(int(size))
+        font = ImageFont.load_default(int(size)) # type: ignore
         draw.text((int(position_x), int(position_y)), text, font=font, fill=color)
         logger.out(f"Applying a {size} pixels sized text ('{text}') onto the image at {(position_x, position_y)} with the color {color}")
         return copiedImage
