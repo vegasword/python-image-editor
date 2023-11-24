@@ -1,0 +1,26 @@
+grey = off
+
+blur = off
+    blur_rate = 30
+
+dilate = on
+
+rotate = on
+    rotate_angle = 45
+
+resize = off
+    resize_width =
+    resize_height =
+
+addText = off
+    text = azezaeza
+    text_size = 200
+    position_x = 500
+    position_y = 500
+    color = red
+
+watercolor = off
+
+input = img/nishikata.jpg img/octet.jpg
+
+output = img/
