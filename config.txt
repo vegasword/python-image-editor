@@ -6,17 +6,21 @@ blur = off
 dilate = off
 
 rotate = off
-    rotate_angle = 50
+    rotate_angle = 90
 
 resize = off
     resize_width =
     resize_height =
 
-addText = off
-    text =
-    text_size =
-    position_x =
-    position_y =
-    color =
+addText = on
+    text = azezaeza
+    text_size = 200
+    position_x = 500
+    position_y = 500
+    color = red
 
-watercolor = off
+watercolor = on
+
+input = img/nishikata.jpg
+
+output = img/

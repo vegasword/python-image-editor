@@ -35,12 +35,14 @@ def SaveImage(image, outPath):
     """
     try:
         return image.save(outPath)
+    except AttributeError:
+        return None
     except ValueError:
         print("The output file extension is not supported.")
     except OSError:
         print("Something went wrong during the exportation.")
 
-def CreateGif(image_paths, gif_path, duration=100, loop=0, resize_dimension=(500, 500)):
+def CreateGif(image_paths, gif_path, duration=100, loop=0, width=500, height = 500):
     """
     Create a GIF from a list of image file paths.
 
@@ -56,7 +58,7 @@ def CreateGif(image_paths, gif_path, duration=100, loop=0, resize_dimension=(500
     """
     image_list = [Image.open(image_path) for image_path in image_paths]
     for i in range(len(image_list)):
-        resized_image = ResizeImage(image_list[i], resize_dimension)
+        resized_image = ResizeImage(image_list[i], width, height)
         if resized_image is not None:
             image_list[i] = resized_image
     image_list[0].save(
@@ -93,7 +95,7 @@ def DrawSquares(image_path):
     """
     image = Image.open(image_path)
     draw = ImageDraw.Draw(image)
-    faces = detect_face(image_path)
+    faces = DetectFace(image_path)
     for (x, y, w, h) in faces:
         draw.rectangle([x, y, x + w, y + h], outline="red", width=3)
     image.save('img/faceResult.jpg')

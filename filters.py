@@ -28,9 +28,9 @@ def BlurImage(image, bluringRadius):
     """
     try:
         logger.out(f"Applying blur filter with a radius of {bluringRadius}")
-        return image.filter(ImageFilter.GaussianBlur(bluringRadius))
-    except TypeError :
-        print("The type of bluringLvl must be a number.")
+        return image.filter(ImageFilter.GaussianBlur(int(bluringRadius)))
+    except ValueError :
+        print("The value of bluring must be an integer.")
 
 def DilateImage(image):
     """
@@ -50,25 +50,23 @@ def RotateImage(image, angle):
     """
     try :
         logger.out(f"Rotating the image by {angle} degrees counter clockwise")
-        return image.rotate(angle)
-    except TypeError :
-        print("The type of the angle must be a number.")
+        return image.rotate(int(angle))
+    except ValueError :
+        print("The value of the angle must be an integer.")
   
-def ResizeImage(image, dimension):
+def ResizeImage(image, width, height):
     """
     Resize the image
     :param dimension: New image dimension
     :return: New pillow image
     """
     try :
-        logger.out(f"Resizing the image to {dimension} degrees counter clockwise")
-        return image.resize(dimension)
-    except TypeError :
-        print("The type of the dimension must be a tuple.")
-    except NameError :
-        print("The dimension must be a tuple.")
+        logger.out(f"Resizing the image to {width}x{height} degrees counter clockwise")
+        return image.resize((int(width), int(height)))
+    except ValueError :
+        print("The values of the dimension must be integers.")
 
-def TextOnImage(image, text, size, position, color):
+def TextOnImage(image, text, size, position_x, position_y, color):
     """
     Draw a text onto an image
     :param image: Inputted pillow image
@@ -81,12 +79,14 @@ def TextOnImage(image, text, size, position, color):
     try :
         copiedImage = image.copy()
         draw = ImageDraw.Draw(copiedImage)
-        font = ImageFont.load_default(size)
-        draw.text(position, text, font=font, fill=color)
-        logger.out(f"Applying a {size} pixels sized text ('{text}') onto the image at {position} with the color {color}")
+        font = ImageFont.load_default(int(size))
+        draw.text((int(position_x), int(position_y)), text, font=font, fill=color)
+        logger.out(f"Applying a {size} pixels sized text ('{text}') onto the image at {(position_x, position_y)} with the color {color}")
         return copiedImage
     except AttributeError :
-        print("Failed to draw on the image.")
+        print("Error: Failed to draw on the image.")
+    except ValueError:
+        print("Error: Size and postitions must be integers, color must be string.")
 
 def WatercolourImage(image):
     """

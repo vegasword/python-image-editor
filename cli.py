@@ -3,59 +3,61 @@ from file import *
 import sys
 
 if "--createGif" in sys.argv and "--o" in sys.argv:
-    if "--o" in sys.argv:
-        nextArgument = sys.argv[sys.argv.index("--o") + 1]
-        outputPath = str(nextArgument + "createdGif.gif")
-    if "--createGif" in sys.argv:
-        nextArgument = sys.argv[sys.argv.index("--createGif") + 1]
-        path = str(nextArgument)
-        imagesNames = os.listdir(path)
-        imagesList = []
-        for i in range(0,len(imagesNames)):
-            imagesList.append(path + imagesNames[i])
-        CreateGif(imagesList, outputPath, duration=500, loop=0)
-elif ("--filters" or "--config" in sys.argv) and "--i" in sys.argv and "--o" in sys.argv:
-    if "--i" in sys.argv:
-        nextArgument = sys.argv[sys.argv.index("--i") + 1]
-        path = str(nextArgument)
-        image = OpenImage(path)
-        imageName = os.path.basename(path)
-    if "--o" in sys.argv:
-        nextArgument = sys.argv[sys.argv.index("--o") + 1]
-        outputPath = str(nextArgument + "modified-" + imageName)
-    if "--filters" in sys.argv:
-        nextArgument = sys.argv[sys.argv.index("--filters") + 1]
-        filter = nextArgument.split("&")
-        filters = {}
-        for f in filter:
-            param = f.split(":")
-            if len(param) > 2:
-                    for i in range(1, len(param), 1):
-                        filters[param[0]+str(i)] = param[i]
-            elif len(param) > 1:
-                filters[param[0]] = param[1]
-            else:
-                filters[f] = None
-        if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
-            if "grey" in filters:
-                image = GreyImage(image)
-            if "blur" in filters:
-                filterParam = filters["blur"]
-                image = BlurImage(image, int(filterParam))
-            if "dilate" in filters:                
-                image = DilateImage(image)
-            if "addText1" in filters:
-                image = TextOnImage(image, filters["addText1"], int(filters["addText2"]), (int(filters["addText3"]), int(filters["addText4"])), filters["addText5"])
-            if "rotate" in filters:
-                filterParam = filters["rotate"]
-                image = RotateImage(image, int(filterParam))
-            if "resize1" in filters:
-                image = ResizeImage(image, (int(filters["resize1"]), int(filters["resize2"])))
-            if "watercolor" in filters:
-                image = WatercolourImage(image)
+    nextArgument = sys.argv[sys.argv.index("--o") + 1]
+    outputPath = str(nextArgument + "createdGif.gif")
+    nextArgument = sys.argv[sys.argv.index("--createGif") + 1]
+    path = str(nextArgument)
+    image = OpenImage(path)
+    imagesNames = os.listdir(path)
+    imagesList = []
+    for i in range(0,len(imagesNames)):
+        imagesList.append(path + imagesNames[i])
+    CreateGif(imagesList, outputPath, duration=500, loop=0)
+    SaveImage(image, outputPath) 
+elif "--filters" in sys.argv and "--i" in sys.argv and "--o" in sys.argv:
+    nextArgument = sys.argv[sys.argv.index("--i") + 1]
+    path = str(nextArgument)
+    image = OpenImage(path)
+    imageName = os.path.basename(path)
+    nextArgument = sys.argv[sys.argv.index("--o") + 1]
+    outputPath = str(nextArgument + "modified-" + imageName)
+    nextArgument = sys.argv[sys.argv.index("--filters") + 1]
+    filter = nextArgument.split("&")
+    filters = {}
+    for f in filter:
+        param = f.split(":")
+        if len(param) > 2:
+                for i in range(1, len(param), 1):
+                    filters[param[0]+str(i)] = param[i]
+        elif len(param) > 1:
+            filters[param[0]] = param[1]
         else:
-            print("Wrong parameters. Please use --help.")
-    elif "--config" in sys.argv:
+            filters[f] = None
+    if any(filter_name in filters for filter_name in ["grey", "blur", "dilate", "addText1", "rotate", "resize1", "watercolor"]):
+        if "grey" in filters:
+            image = GreyImage(image)
+        if "blur" in filters:
+            filterParam = filters["blur"]
+            image = BlurImage(image, filterParam)
+        if "dilate" in filters:                
+            image = DilateImage(image)
+        if "addText1" in filters:
+            try:
+                image = TextOnImage(image, filters["addText1"], filters["addText2"], filters["addText3"], filters["addText4"], filters["addText5"])
+            except KeyError:
+                print("Not enough parameters.")
+        if "rotate" in filters:
+            filterParam = filters["rotate"]
+            image = RotateImage(image, filterParam)
+        if "resize1" in filters:
+            image = ResizeImage(image, filters["resize1"], filters["resize2"])
+        if "watercolor" in filters:
+            image = WatercolourImage(image)
+    else:
+        print("Wrong parameters. Please use --help.")
+    SaveImage(image, outputPath) 
+elif "--config" in sys.argv:
+    try:
         nextArgument = sys.argv[sys.argv.index("--config") + 1]
         configPath = str(nextArgument)
         options = {}
@@ -64,25 +66,29 @@ elif ("--filters" or "--config" in sys.argv) and "--i" in sys.argv and "--o" in 
                 option = line.split("=")
                 if len(option) > 1:
                     options[option[0].strip()] = option[1].strip()
+        path = options["input"]
+        image = OpenImage(path)
+        imageName = os.path.basename(path)
+        outputPath = str(options["output"] + "modified-" + imageName)
         thereIsOption = False
         if "on" in options["grey"]:
             image = GreyImage(image)
             thereIsOption = True
         if "on" in options["blur"]:
             blurRate = options["blur_rate"]
-            image = BlurImage(image, int(blurRate))
+            image = BlurImage(image, blurRate)
             thereIsOption = True
         if "on" in options["dilate"]:
             image = DilateImage(image)
             thereIsOption = True
         if "on" in options["rotate"]:
             rotateAngle = options["rotate_angle"]
-            image = RotateImage(image, int(rotateAngle))
+            image = RotateImage(image, rotateAngle)
             thereIsOption = True
         if "on" in options["resize"]:
             resizeWidth = options["resize_width"]
             resizeHeight = options["resize_height"]
-            image = ResizeImage(image, (int(resizeWidth), int(resizeHeight)))
+            image = ResizeImage(image, resizeWidth, resizeHeight)
             thereIsOption = True
         if "on" in options["addText"]:
             text = options["text"]
@@ -90,15 +96,16 @@ elif ("--filters" or "--config" in sys.argv) and "--i" in sys.argv and "--o" in 
             positionX = options["position_x"]
             positionY = options["position_y"]
             color = options["color"]
-            image = TextOnImage(image, text, int(textSize), (int(positionX), int(positionY)), color)         
+            image = TextOnImage(image, text, int(textSize), positionX, positionY, color)         
             thereIsOption = True
         if "on" in options["watercolor"]:
             image = WatercolourImage(image)
+            thereIsOption = True
         if not thereIsOption:
-            print(f"No options defined in {configPath}")
-    else:
-        print("Wrong parameters usage. Please use --help.")
-    SaveImage(image, outputPath)  
+            print(f"Error: No options defined in {configPath}")
+        SaveImage(image, outputPath) 
+    except IndexError:
+        print("Error: No file specified.")
 elif "--help" in sys.argv or len(sys.argv) < 2:
     print("Usage: python3 main.py [OPTIONS] [ARGS]...\n\n\
     Image editor command line interface.\n\n\
